@@ -17,7 +17,7 @@ class BookingController extends Controller
         $request = Request::create('/api/trip/book/data', 'POST');
         $bookingData = json_decode(Route::dispatch($request)->getContent());
         
-        // validation fails
+        // if validation fails
         if(!$bookingData->status){
             return $bookingData->data;
         }

@@ -9,6 +9,7 @@ use App\Booking;
 use App\Station;
 use App\Line;
 use App\LinePart;
+use App\Seat;
 use Illuminate\Support\Facades\Validator;
 
 class TripsController extends Controller
@@ -16,29 +17,25 @@ class TripsController extends Controller
 
     # get all available lines
     public function getLines(Request $request){
-
+        
+        # validate inputs
         $rules = [
             'from_id' => 'required',
             'to_id' => 'required',
         ];
-
         $validate = $this->validateInputs($request, $rules);
-        
         if(!$validate['status']){
             return $this->responseBody($validate['status'], $validate['data']);
         }
         
-
         $fromId = $request->from_id;
         $toId = $request->to_id;
-
+        
         $lines = Line::where([['from_id', '=', $fromId], ['to_id', '=', $toId]])
                 ->with(
-                    'parts',
                     'stationFrom', 
                     'stationTo',
-                    'trip',
-                    'trip.seats'
+                    'trip'
                 )->get();
         
         return $this->responseBody(1, $lines);
@@ -59,38 +56,34 @@ class TripsController extends Controller
             'line_id' => 'required',
         ];
 
+        # validate inputs
         $validate = $this->validateInputs($request, $rules);
-        
         if(!$validate['status']){
             return $this->responseBody($validate['status'], $validate['data']);
         }
-
+        
         $tripId = $request->trip_id;
         $lineId = $request->line_id;
         
-        $tripBookings = Booking::with('line', 'line.parts', 'trip.seats')
-                ->where('trip_id', $tripId)
-                ->get();        
-
+        # get all current bookings for all trip lines
+        $tripBookings = Booking::with('line', 'line.parts')->where('trip_id', $tripId)->get();
+        $tripSeats = Seat::where('trip_id', $tripId)->pluck('id', 'number');
         $requiredTripLines = LinePart::where('parent_line_id', $lineId)->pluck('line_id');
-
-        # if no bookings available for this trip we will return required line with all seats available
+        
+        # if no current bookings yet for this trip, we will return required booking lines with all seats available.
         if($tripBookings->count() == 0){
-            $trip = Trip::with('seats')->find($tripId);
             foreach($requiredTripLines as $k => $v){
-                $t[$v]['bookedSeats'] = [];
-                $t[$v]['availableSeats'] = $trip->seats->pluck('id', 'number')->toArray();
+                $t[$v] = [
+                    'bookedSeats' => [],
+                    'availableSeats' => $tripSeats->toArray()
+                ];
             }
             return $this->responseBody(1, $this->combineTripLinesData($t));
         }
-
-        # all trip seats
-        $tripSeats = $tripBookings[0]->trip->seats->pluck('id', 'number');
-        $tripBookingdData = []; 
         
-        # get all lines booked seats
-        # we loop through parts because some lines including sub lines(parts)
+        $tripBookingdData = [];
         foreach($tripBookings as $booking){
+            # we loop through parts because some trip lines including sub lines(parts)
             foreach($booking->line->parts as $part){
                 $tripBookingdData[$part->line_id]['bookedSeats'][] = $booking->seat_id;
             }
