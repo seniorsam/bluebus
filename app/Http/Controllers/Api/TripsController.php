@@ -81,7 +81,7 @@ class TripsController extends Controller
                 $t[$v]['bookedSeats'] = [];
                 $t[$v]['availableSeats'] = $trip->seats->pluck('id', 'number')->toArray();
             }
-            return $this->combineTripLinesData($t);
+            return $this->responseBody(1, $this->combineTripLinesData($t));
         }
 
         # all trip seats
