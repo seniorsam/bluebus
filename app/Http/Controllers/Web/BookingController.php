@@ -17,10 +17,15 @@ class BookingController extends Controller
         $request = Request::create('/api/trip/book/data', 'POST');
         $bookingData = json_decode(Route::dispatch($request)->getContent());
 
+        // validation fails
+        if(!$bookingData->status){
+            return $bookingData->data;
+        }
+
         $data = [
             'tripId' => $tripId,
             'lineId' => $lineId,
-            'availableSeats' => $bookingData->availableSeats
+            'availableSeats' => $bookingData->data->availableSeats
         ];
         
         return view('show_booking')->withData($data);    
@@ -31,6 +36,12 @@ class BookingController extends Controller
 
         $request = Request::create('/api/trip/book', 'POST');
         $booking = json_decode(Route::dispatch($request)->getContent());
+
+        // validation fails
+        if(!$booking->status){
+            return $booking->data;
+        }
+
         return redirect()->route('home')->withMsg('Trip Booked');
         
     }

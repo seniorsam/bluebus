@@ -54,6 +54,17 @@ class TripsController extends Controller
     # get trip current bookings
     public function getTripBookingData(Request $request){
 
+        $rules = [
+            'trip_id' => 'required',
+            'line_id' => 'required',
+        ];
+
+        $validate = $this->validateInputs($request, $rules);
+        
+        if(!$validate['status']){
+            return $this->responseBody($validate['status'], $validate['data']);
+        }
+
         $tripId = $request->trip_id;
         $lineId = $request->line_id;
         
@@ -85,7 +96,8 @@ class TripsController extends Controller
             }
         }
 
-        return $this->getRequiredLineBookingData($tripBookingdData, $requiredTripLines, $tripSeats);
+        $requiredLineBookingData = $this->getRequiredLineBookingData($tripBookingdData, $requiredTripLines, $tripSeats);
+        return $this->responseBody(1, $requiredLineBookingData);
 
     }
 
@@ -125,6 +137,18 @@ class TripsController extends Controller
     # book a trip
     public function book(Request $request){
 
+        $rules = [
+            'trip_id' => 'required',
+            'line_id' => 'required',
+            'seat_id' => 'required',
+        ];
+
+        $validate = $this->validateInputs($request, $rules);
+        
+        if(!$validate['status']){
+            return $this->responseBody($validate['status'], $validate['data']);
+        }
+
         $lineId = $request->line_id;
         $tripId = $request->trip_id;
         $seatId = $request->seat_id;
@@ -135,9 +159,8 @@ class TripsController extends Controller
             'trip_id' => $tripId,
             'seat_id' => $seatId
         ]);
-        
-        return $booking;
 
+        return $this->responseBody(1, $booking);
     }
 
     public function responseBody($status, $data = []){
