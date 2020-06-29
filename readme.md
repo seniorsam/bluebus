@@ -6,10 +6,10 @@ Bluebus is a web application presenting ticket booking services for buses.
 
 - I created all the functionalities as APIS, so you can use it from web or mobile application
 - I treated all the trip crossovers as sub trips
-For example if we have a trip such as (Cairo > Giza > Asyut)
-I treat this as parent trips and sub trips such as:
-a parent trip from (Cairo > Asyut) inlude sub trips such as (Cairo > Giza) and from (Giza > Asyut) and so on for all possible lines in this trip, booking a parent trip booking would affect its sub trips and vice versa
-this helped me to track each trip possible scenarios for example
+For example if we have a trip such as (Cairo > Giza > Asyut) <br />
+I treat this as parent trips and sub trips such as: <br />
+a parent trip from (Cairo > Asyut) include sub trips such as (Cairo > Giza) and from (Giza > Asyut) and so on for all possible lines in this trip, booking a parent trip booking would affect its sub trips and vice versa. <br />
+this helped me to track each trip possible scenarios for example <br />
 “if the user want to book a seat from Cairo > Giza which is sub trip, but at the same time all tickets from Cairo > Asyut Are Booked which is a parent 
 trip”
 - i made the booking process seperated to 4 parts in order to increase performance by distributing the process required on these 4 steps.
