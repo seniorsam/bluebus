@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-
+ 
     function index() {
 
         $request = Request::create('/api/stations/all', 'GET');

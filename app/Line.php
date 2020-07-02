@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Line extends Model
 {
+
+    protected $fillable = [
+        'id',
+        'from_id',
+        'to_id',
+        'trip_id',
+    ];
     protected $hidden = [
         'created_at',
         'updated_at'
@@ -26,8 +33,8 @@ class Line extends Model
     public function bookings (){
         return $this->hasMany(Booking::class);
     }
-
+    
     public function parts(){
-        return $this->hasMany(LinePart::class, 'parent_line_id', 'id');
+        return $this->hasMany(LinePart::class);
     }
 }

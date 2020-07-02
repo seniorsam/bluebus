@@ -42,6 +42,11 @@
                             <a href="{{route('home')}}">
                                 Bluebus
                             </a>
+                            <span style="font-size:15px;">
+                                <a href="{{route('trip.create')}}" class="badge badge-success">
+                                    Create Trip
+                                </a>
+                            </span>
                         </h1>
                         @if(Session::has('msg'))
                             <p class="alert alert-info">{{ Session::get('msg') }}</p>
@@ -51,5 +56,7 @@
                 </div>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        @yield('page-js')
     </body>
 </html>

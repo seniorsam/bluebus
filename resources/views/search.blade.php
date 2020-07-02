@@ -6,8 +6,8 @@
     </div>
 
     <br>
+        <h2> Available Trips</h2>
         @forelse($lines as $line)
-            <h2> Available Trips</h2>
             <div class="card">
                 <div class="card-body">
                     <ul>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> <br>
         @empty
             This Trip Not Available    
         @endforelse

@@ -38,8 +38,8 @@ class CreateBluebusTables extends Migration
         });
 
         Schema::create('line_parts', function (Blueprint $table) {
-            $table->unsignedBigInteger('parent_line_id');
             $table->unsignedBigInteger('line_id');
+            $table->unsignedBigInteger('child_line_id');
         });
 
         Schema::create('bookings', function (Blueprint $table) {

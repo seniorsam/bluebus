@@ -55,7 +55,7 @@ class TripsController extends Controller
             'trip_id' => 'required',
             'line_id' => 'required',
         ];
-
+        
         # validate inputs
         $validate = $this->validateInputs($request, $rules);
         if(!$validate['status']){
@@ -68,7 +68,7 @@ class TripsController extends Controller
         # get all current bookings for all trip lines
         $tripBookings = Booking::with('line', 'line.parts')->where('trip_id', $tripId)->get();
         $tripSeats = Seat::where('trip_id', $tripId)->pluck('id', 'number');
-        $requiredTripLines = LinePart::where('parent_line_id', $lineId)->pluck('line_id');
+        $requiredTripLines = LinePart::where('line_id', $lineId)->pluck('child_line_id');
         
         # if no current bookings yet for this trip, we will return required booking lines with all seats available.
         if($tripBookings->count() == 0){
@@ -85,7 +85,7 @@ class TripsController extends Controller
         foreach($tripBookings as $booking){
             # we loop through parts because some trip lines including sub lines(parts)
             foreach($booking->line->parts as $part){
-                $tripBookingdData[$part->line_id]['bookedSeats'][] = $booking->seat_id;
+                $tripBookingdData[$part->child_line_id]['bookedSeats'][] = $booking->seat_id;
             }
         }
 
@@ -101,6 +101,7 @@ class TripsController extends Controller
         $outputCombined = [];
         
         foreach($requiredTripLines as $k => $v){
+            // if required trip line is booked already
             if(isset($tripBookingdData[$v])){
                 $output[$v] = $tripBookingdData[$v];
                 $output[$v]['availableSeats'] = $tripSeats->diff($tripBookingdData[$v]['bookedSeats'])->toArray();
@@ -109,7 +110,7 @@ class TripsController extends Controller
                 $output[$v]['availableSeats'] = $tripSeats->toArray();
             }
         }
-       
+        
         return $this->combineTripLinesData($output);
 
     }
@@ -118,11 +119,13 @@ class TripsController extends Controller
     public function combineTripLinesData($data){
 
         $data = collect($data);
-        if(count($data) > 1){
+        
+        if($data->count() > 1){
             $availableSeats = call_user_func_array('array_intersect', $data->pluck('availableSeats')->toArray() );
         }else{
             $availableSeats = $data->pluck('availableSeats')->toArray()[0];
         }
+        
         $outputCombined['availableSeats'] = $availableSeats;
         return $outputCombined;
     }

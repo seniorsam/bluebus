@@ -12,6 +12,7 @@ Route::group(
     Route::get('/trips/all','TripsController@getAllTrips');
     Route::post('/trip/book/data','TripsController@getTripBookingData');
     Route::post('/trip/book','TripsController@book');
+    Route::post('/trip/data/build', 'TripsdataController@buildTripData');
     Route::get('/stations/all','TripsController@getStations');
     Route::post('/lines/search','TripsController@getLines');
     

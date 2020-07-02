@@ -46,7 +46,7 @@ class seedBluebusApp extends Seeder
         // stations
         \DB::table('stations')->insert($stations);
         
-        // lines
+        // // lines
         $lines = [
             [
                 'from_id' => 1,
@@ -115,84 +115,84 @@ class seedBluebusApp extends Seeder
         
         $line_parts = [
             [
-                'parent_line_id' => 1,
-                'line_id' => 1
+                'line_id' => 1,
+                'child_line_id' => 1
             ],
             [
-                'parent_line_id' => 2,
-                'line_id' => 2
+                'line_id' => 2,
+                'child_line_id' => 2
             ],
             [
-                'parent_line_id' => 3,
-                'line_id' => 3
+                'line_id' => 3,
+                'child_line_id' => 3
             ],
             [
-                'parent_line_id' => 4,
-                'line_id' => 1
+                'line_id' => 4,
+                'child_line_id' => 1
             ],
             [
-                'parent_line_id' => 4,
-                'line_id' => 2
+                'line_id' => 4,
+                'child_line_id' => 2
             ],
             [
-                'parent_line_id' => 5,
-                'line_id' => 3
+                'line_id' => 5,
+                'child_line_id' => 3
             ],
             [
-                'parent_line_id' => 5,
-                'line_id' => 4
+                'line_id' => 5,
+                'child_line_id' => 4
             ],
             [
-                'parent_line_id' => 6,
-                'line_id' => 1
+                'line_id' => 6,
+                'child_line_id' => 1
             ],
             [
-                'parent_line_id' => 6,
-                'line_id' => 2
+                'line_id' => 6,
+                'child_line_id' => 2
             ],
             [
-                'parent_line_id' => 6,
-                'line_id' => 3
-            ], //
-            [
-                'parent_line_id' => 7,
-                'line_id' => 8
+                'line_id' => 6,
+                'child_line_id' => 3
             ],
             [
-                'parent_line_id' => 8,
-                'line_id' => 8
+                'line_id' => 7,
+                'child_line_id' => 8
             ],
             [
-                'parent_line_id' => 9,
-                'line_id' => 9
+                'line_id' => 8,
+                'child_line_id' => 8
             ],
             [
-                'parent_line_id' => 10,
-                'line_id' => 7
+                'line_id' => 9,
+                'child_line_id' => 9
             ],
             [
-                'parent_line_id' => 10,
-                'line_id' => 8
+                'line_id' => 10,
+                'child_line_id' => 7
             ],
             [
-                'parent_line_id' => 11,
-                'line_id' => 8
+                'line_id' => 10,
+                'child_line_id' => 8
             ],
             [
-                'parent_line_id' => 11,
-                'line_id' => 9
+                'line_id' => 11,
+                'child_line_id' => 8
             ],
             [
-                'parent_line_id' => 12,
-                'line_id' => 7
+                'line_id' => 11,
+                'child_line_id' => 9
             ],
             [
-                'parent_line_id' => 12,
-                'line_id' => 8
+                'line_id' => 12,
+                'child_line_id' => 7
             ],
             [
-                'parent_line_id' => 12,
-                'line_id' => 9
+                'line_id' => 12,
+                'child_line_id' => 8
+            ],
+            [
+                'line_id' => 12,
+                'child_line_id' => 9
             ]
         ];
 
