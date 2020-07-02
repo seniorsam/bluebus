@@ -28,4 +28,6 @@ trip”
 - run "composer install" to install packages
 - run "php artisan migrate:refresh --seed" inside project folder
 
-
+## Create Trips
+- after seeding the project it will start with initial data, also you can create your trips <br />
+using add trip page, just add the bus name and trip stations in order, and all the trip possible lines wil be added<br />
